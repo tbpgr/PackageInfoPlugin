@@ -1,0 +1,35 @@
+def defaultEncoding = 'UTF-8'
+
+apply plugin: 'groovy'
+apply plugin: 'eclipse'
+
+sourceCompatibility = 1.7
+targetCompatibility = 1.7
+
+group = 'gr.java_conf.tb.packageplugin'
+archivesBaseName = 'packageplugin'
+version = '1.0-SNAPSHOT'
+
+repositories { mavenCentral() }
+
+dependencies {
+  compile gradleApi()
+  groovy localGroovy()
+}
+
+apply plugin: 'maven'
+
+uploadArchives {
+  repositories {
+    mavenDeployer {
+      repository(url: 'file://' + new File(System.getProperty('user.home'), '.m2/repository').absolutePath)
+    }
+  }
+}
+
+test { systemProperties 'property': 'value' }
+
+uploadArchives {
+  repositories { flatDir { dirs 'repos'
+    } }
+}
